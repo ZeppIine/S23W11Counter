@@ -5,17 +5,24 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.autoSaver
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kr.ac.kumoh.ce.s20180147.s23w11counter.ui.theme.S23W11CounterTheme
@@ -25,7 +32,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyApp {
-                Clicker()
+//                Clicker()
+                Counter()
             }
         }
     }
@@ -46,7 +54,8 @@ fun MyApp(content: @Composable () -> Unit){
 
 @Composable
 fun Clicker(){
-    var txtString = "눌러주세요"
+//    var txtString by remember { mutableStateOf("눌러주세요")}
+    val (txtString, setTxtString) = remember { mutableStateOf("눌러주세요")}
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(8.dp),
@@ -58,9 +67,44 @@ fun Clicker(){
         Button(modifier = Modifier
             .fillMaxWidth(),
             onClick = {
-                txtString = "눌렸습니다"
+//                txtString = "눌렸습니다"
+                setTxtString("눌렸습니다")
             }) {
-            Text("눌러봐")
+            Text("'눌러'")
+        }
+    }
+}
+
+@Composable
+fun Counter() {
+    var intCounter by remember { mutableStateOf(0)}
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(8.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(text = "$intCounter",
+            fontSize = 70.sp,
+        )
+        Row {
+            Button(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(8.dp),
+                onClick = {
+                    intCounter++
+                }) {
+                Text("올라간다ㅏㅏ")
+            }
+            Button(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(8.dp),
+                onClick = {
+                    intCounter--
+                }) {
+                Text("내려간다ㅏㅏ")
+            }
         }
     }
 }
