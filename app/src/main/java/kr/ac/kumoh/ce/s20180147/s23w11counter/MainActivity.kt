@@ -22,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.autoSaver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -66,7 +67,7 @@ fun MyApp(content: @Composable () -> Unit){
 @Composable
 fun Clicker(){
 //    var txtString by remember { mutableStateOf("눌러주세요")}
-    val (txtString, setTxtString) = remember { mutableStateOf("눌러주세요")}
+    val (txtString, setTxtString) = remember {mutableStateOf("눌러주세요")}
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(8.dp),
@@ -88,7 +89,7 @@ fun Clicker(){
 
 @Composable
 fun Counter() {
-    var intCounter by remember { mutableStateOf(0)}
+    var intCounter by rememberSaveable { mutableStateOf(0)}
     Column(modifier = Modifier
         .fillMaxWidth()
         .padding(8.dp),
