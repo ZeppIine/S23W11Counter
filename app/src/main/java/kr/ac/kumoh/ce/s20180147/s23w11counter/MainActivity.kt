@@ -19,6 +19,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.autoSaver
@@ -28,10 +29,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModelProvider
 import kr.ac.kumoh.ce.s20180147.s23w11counter.ui.theme.S23W11CounterTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        val vm = ViewModelProvider(this)[CounterViewModel::class.java]
         super.onCreate(savedInstanceState)
         setContent {
             MyApp {
@@ -42,9 +45,9 @@ class MainActivity : ComponentActivity() {
                         .padding(8.dp),
                     verticalArrangement = Arrangement.Center
                 ){
-                    Counter()
+                    Counter(vm)
                     Spacer(modifier = Modifier.height(40.dp))
-                    Counter()
+                    Counter(vm)
                 }
             }
         }
@@ -88,8 +91,9 @@ fun Clicker(){
 }
 
 @Composable
-fun Counter() {
-    var intCounter by rememberSaveable { mutableStateOf(0)}
+fun Counter(viewModel: CounterViewModel) {
+//    var intCounter by rememberSaveable { mutableStateOf(0)}
+    val intCounter by viewModel.count.observeAsState(0)
     Column(modifier = Modifier
         .fillMaxWidth()
         .padding(8.dp),
@@ -103,7 +107,7 @@ fun Counter() {
                 modifier = Modifier
                     .weight(10f),
                 onClick = {
-                    intCounter++
+                    viewModel.onAdd()
                 }) {
                 Text("올라간다ㅏㅏ")
             }
@@ -112,7 +116,7 @@ fun Counter() {
                 modifier = Modifier
                     .weight(10f),
                 onClick = {
-                    intCounter--
+                    viewModel.onSub()
                 }) {
                 Text("내려간다ㅏㅏ")
             }
