@@ -6,8 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -33,7 +35,16 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyApp {
 //                Clicker()
-                Counter()
+                Column (
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(8.dp),
+                    verticalArrangement = Arrangement.Center
+                ){
+                    Counter()
+                    Spacer(modifier = Modifier.height(40.dp))
+                    Counter()
+                }
             }
         }
     }
@@ -79,7 +90,7 @@ fun Clicker(){
 fun Counter() {
     var intCounter by remember { mutableStateOf(0)}
     Column(modifier = Modifier
-        .fillMaxSize()
+        .fillMaxWidth()
         .padding(8.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally) {
@@ -89,17 +100,16 @@ fun Counter() {
         Row {
             Button(
                 modifier = Modifier
-                    .weight(1f)
-                    .padding(8.dp),
+                    .weight(10f),
                 onClick = {
                     intCounter++
                 }) {
                 Text("올라간다ㅏㅏ")
             }
+            Spacer(modifier = Modifier.weight(1f))
             Button(
                 modifier = Modifier
-                    .weight(1f)
-                    .padding(8.dp),
+                    .weight(10f),
                 onClick = {
                     intCounter--
                 }) {
